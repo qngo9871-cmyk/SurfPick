@@ -1,0 +1,633 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CEA40C772F9CE018004CE1EF /* SurfShared in Frameworks */ = {isa = PBXBuildFile; productRef = CEA40C762F9CE018004CE1EF /* SurfShared */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CEA40C562F9CDADE004CE1EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEA40C402F9CDADB004CE1EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CEA40C472F9CDADB004CE1EF;
+			remoteInfo = SurfPick;
+		};
+		CEA40C602F9CDADE004CE1EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEA40C402F9CDADB004CE1EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CEA40C472F9CDADB004CE1EF;
+			remoteInfo = SurfPick;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		CEA40C482F9CDADB004CE1EF /* SurfPick.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SurfPick.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEA40C552F9CDADE004CE1EF /* SurfPickTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurfPickTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEA40C5F2F9CDADE004CE1EF /* SurfPickUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurfPickUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEA40C892F9CE3BB004CE1EF /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		CEA40C8B2F9CE3BB004CE1EF /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		CEA40C4A2F9CDADB004CE1EF /* SurfPick */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SurfPick;
+			sourceTree = "<group>";
+		};
+		CEA40C582F9CDADE004CE1EF /* SurfPickTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SurfPickTests;
+			sourceTree = "<group>";
+		};
+		CEA40C622F9CDADE004CE1EF /* SurfPickUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SurfPickUITests;
+			sourceTree = "<group>";
+		};
+		CEA40C8D2F9CE3BB004CE1EF /* SurfPickWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SurfPickWidget;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CEA40C452F9CDADB004CE1EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEA40C772F9CE018004CE1EF /* SurfShared in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEA40C522F9CDADE004CE1EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEA40C5C2F9CDADE004CE1EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CEA40C3F2F9CDADB004CE1EF = {
+			isa = PBXGroup;
+			children = (
+				CEA40C4A2F9CDADB004CE1EF /* SurfPick */,
+				CEA40C582F9CDADE004CE1EF /* SurfPickTests */,
+				CEA40C622F9CDADE004CE1EF /* SurfPickUITests */,
+				CEA40C8D2F9CE3BB004CE1EF /* SurfPickWidget */,
+				CEA40C752F9CE018004CE1EF /* Frameworks */,
+				CEA40C492F9CDADB004CE1EF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CEA40C492F9CDADB004CE1EF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEA40C482F9CDADB004CE1EF /* SurfPick.app */,
+				CEA40C552F9CDADE004CE1EF /* SurfPickTests.xctest */,
+				CEA40C5F2F9CDADE004CE1EF /* SurfPickUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CEA40C752F9CE018004CE1EF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CEA40C892F9CE3BB004CE1EF /* WidgetKit.framework */,
+				CEA40C8B2F9CE3BB004CE1EF /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CEA40C472F9CDADB004CE1EF /* SurfPick */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEA40C692F9CDADE004CE1EF /* Build configuration list for PBXNativeTarget "SurfPick" */;
+			buildPhases = (
+				CEA40C442F9CDADB004CE1EF /* Sources */,
+				CEA40C452F9CDADB004CE1EF /* Frameworks */,
+				CEA40C462F9CDADB004CE1EF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CEA40C4A2F9CDADB004CE1EF /* SurfPick */,
+			);
+			name = SurfPick;
+			packageProductDependencies = (
+				CEA40C762F9CE018004CE1EF /* SurfShared */,
+			);
+			productName = SurfPick;
+			productReference = CEA40C482F9CDADB004CE1EF /* SurfPick.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CEA40C542F9CDADE004CE1EF /* SurfPickTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEA40C6C2F9CDADE004CE1EF /* Build configuration list for PBXNativeTarget "SurfPickTests" */;
+			buildPhases = (
+				CEA40C512F9CDADE004CE1EF /* Sources */,
+				CEA40C522F9CDADE004CE1EF /* Frameworks */,
+				CEA40C532F9CDADE004CE1EF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CEA40C572F9CDADE004CE1EF /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				CEA40C582F9CDADE004CE1EF /* SurfPickTests */,
+			);
+			name = SurfPickTests;
+			packageProductDependencies = (
+			);
+			productName = SurfPickTests;
+			productReference = CEA40C552F9CDADE004CE1EF /* SurfPickTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CEA40C5E2F9CDADE004CE1EF /* SurfPickUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEA40C6F2F9CDADE004CE1EF /* Build configuration list for PBXNativeTarget "SurfPickUITests" */;
+			buildPhases = (
+				CEA40C5B2F9CDADE004CE1EF /* Sources */,
+				CEA40C5C2F9CDADE004CE1EF /* Frameworks */,
+				CEA40C5D2F9CDADE004CE1EF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CEA40C612F9CDADE004CE1EF /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				CEA40C622F9CDADE004CE1EF /* SurfPickUITests */,
+			);
+			name = SurfPickUITests;
+			packageProductDependencies = (
+			);
+			productName = SurfPickUITests;
+			productReference = CEA40C5F2F9CDADE004CE1EF /* SurfPickUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CEA40C402F9CDADB004CE1EF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2640;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					CEA40C472F9CDADB004CE1EF = {
+						CreatedOnToolsVersion = 26.4.1;
+						LastSwiftMigration = 2640;
+					};
+					CEA40C542F9CDADE004CE1EF = {
+						CreatedOnToolsVersion = 26.4.1;
+						TestTargetID = CEA40C472F9CDADB004CE1EF;
+					};
+					CEA40C5E2F9CDADE004CE1EF = {
+						CreatedOnToolsVersion = 26.4.1;
+						TestTargetID = CEA40C472F9CDADB004CE1EF;
+					};
+				};
+			};
+			buildConfigurationList = CEA40C432F9CDADB004CE1EF /* Build configuration list for PBXProject "SurfPick" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CEA40C3F2F9CDADB004CE1EF;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CEA40C722F9CDCDE004CE1EF /* XCLocalSwiftPackageReference "../../SurfShared" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = CEA40C492F9CDADB004CE1EF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CEA40C472F9CDADB004CE1EF /* SurfPick */,
+				CEA40C542F9CDADE004CE1EF /* SurfPickTests */,
+				CEA40C5E2F9CDADE004CE1EF /* SurfPickUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CEA40C462F9CDADB004CE1EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEA40C532F9CDADE004CE1EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEA40C5D2F9CDADE004CE1EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CEA40C442F9CDADB004CE1EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEA40C512F9CDADE004CE1EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEA40C5B2F9CDADE004CE1EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CEA40C572F9CDADE004CE1EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CEA40C472F9CDADB004CE1EF /* SurfPick */;
+			targetProxy = CEA40C562F9CDADE004CE1EF /* PBXContainerItemProxy */;
+		};
+		CEA40C612F9CDADE004CE1EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CEA40C472F9CDADB004CE1EF /* SurfPick */;
+			targetProxy = CEA40C602F9CDADE004CE1EF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		CEA40C672F9CDADE004CE1EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = SM99L22Q84;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CEA40C682F9CDADE004CE1EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = SM99L22Q84;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CEA40C6A2F9CDADE004CE1EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SM99L22Q84;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Surf Pick uses your location to find the best surf spots near you right now.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quyenngo.surfpick;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CEA40C6B2F9CDADE004CE1EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SM99L22Q84;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Surf Pick uses your location to find the best surf spots near you right now.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quyenngo.surfpick;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		CEA40C6D2F9CDADE004CE1EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SM99L22Q84;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quyenngo.SurfPickTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SurfPick.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SurfPick";
+			};
+			name = Debug;
+		};
+		CEA40C6E2F9CDADE004CE1EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SM99L22Q84;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quyenngo.SurfPickTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SurfPick.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SurfPick";
+			};
+			name = Release;
+		};
+		CEA40C702F9CDADE004CE1EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SM99L22Q84;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quyenngo.SurfPickUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SurfPick;
+			};
+			name = Debug;
+		};
+		CEA40C712F9CDADE004CE1EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SM99L22Q84;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quyenngo.SurfPickUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SurfPick;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CEA40C432F9CDADB004CE1EF /* Build configuration list for PBXProject "SurfPick" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEA40C672F9CDADE004CE1EF /* Debug */,
+				CEA40C682F9CDADE004CE1EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEA40C692F9CDADE004CE1EF /* Build configuration list for PBXNativeTarget "SurfPick" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEA40C6A2F9CDADE004CE1EF /* Debug */,
+				CEA40C6B2F9CDADE004CE1EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEA40C6C2F9CDADE004CE1EF /* Build configuration list for PBXNativeTarget "SurfPickTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEA40C6D2F9CDADE004CE1EF /* Debug */,
+				CEA40C6E2F9CDADE004CE1EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEA40C6F2F9CDADE004CE1EF /* Build configuration list for PBXNativeTarget "SurfPickUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEA40C702F9CDADE004CE1EF /* Debug */,
+				CEA40C712F9CDADE004CE1EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		CEA40C722F9CDCDE004CE1EF /* XCLocalSwiftPackageReference "../../SurfShared" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../SurfShared;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CEA40C762F9CE018004CE1EF /* SurfShared */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEA40C722F9CDCDE004CE1EF /* XCLocalSwiftPackageReference "../../SurfShared" */;
+			productName = SurfShared;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = CEA40C402F9CDADB004CE1EF /* Project object */;
+}
