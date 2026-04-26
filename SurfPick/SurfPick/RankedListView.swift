@@ -1,9 +1,15 @@
 import SwiftUI
+import StoreKit
 import SurfShared
 
 struct RankedListView: View {
     @StateObject private var viewModel = RankedSurfViewModel()
+    @EnvironmentObject private var store: StoreKitManager
     @State private var showSettings = false
+    @State private var showPaywall = false
+
+    /// Number of spots visible to free-tier users (the wedge stays visible: best-of-N is shown).
+    private let freeTierVisibleCount = 3
 
     var body: some View {
         NavigationStack {
@@ -52,6 +58,11 @@ struct RankedListView: View {
             }
             .sheet(isPresented: $showSettings) {
                 SettingsView()
+                    .environmentObject(store)
+            }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView()
+                    .environmentObject(store)
             }
         }
         .task {
@@ -129,8 +140,12 @@ struct RankedListView: View {
                     .padding(.top, 24)
                     .padding(.bottom, 8)
 
+                    let breaks = viewModel.rankedBreaks
+                    let freeRows = Array(breaks.dropFirst().prefix(freeTierVisibleCount - 1))
+                    let lockedRows = Array(breaks.dropFirst(freeTierVisibleCount))
+
                     LazyVStack(spacing: 8) {
-                        ForEach(viewModel.rankedBreaks.dropFirst()) { item in
+                        ForEach(freeRows) { item in
                             NavigationLink {
                                 BreakDetailView(break: item)
                             } label: {
@@ -140,6 +155,31 @@ struct RankedListView: View {
                         }
                     }
                     .padding(.horizontal, 16)
+
+                    if !lockedRows.isEmpty {
+                        if store.isPro {
+                            LazyVStack(spacing: 8) {
+                                ForEach(lockedRows) { item in
+                                    NavigationLink {
+                                        BreakDetailView(break: item)
+                                    } label: {
+                                        CompactSpotRow(break: item)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.top, 8)
+                        } else {
+                            LockedRowsBlock(
+                                rows: lockedRows,
+                                priceLabel: store.product?.displayPrice ?? "$4.99",
+                                onUnlock: { showPaywall = true }
+                            )
+                            .padding(.horizontal, 16)
+                            .padding(.top, 8)
+                        }
+                    }
                 }
 
                 if let last = viewModel.lastUpdated {
@@ -306,6 +346,49 @@ struct CompactSpotRow: View {
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color(uiColor: .secondarySystemBackground))
         )
+    }
+}
+
+// MARK: - Locked rows (free tier paywall)
+
+struct LockedRowsBlock: View {
+    let rows: [RankedBreak]
+    let priceLabel: String
+    let onUnlock: () -> Void
+
+    var body: some View {
+        ZStack {
+            VStack(spacing: 8) {
+                ForEach(rows) { item in
+                    CompactSpotRow(break: item)
+                }
+            }
+            .blur(radius: 6)
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
+
+            Button(action: onUnlock) {
+                VStack(spacing: 6) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "lock.fill")
+                        Text("Unlock \(rows.count) more spots")
+                            .font(.headline)
+                    }
+                    Text("One-time \(priceLabel)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 14)
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(Color.accentColor.opacity(0.4), lineWidth: 1)
+                )
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(.primary)
+        }
     }
 }
 

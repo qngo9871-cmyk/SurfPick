@@ -1,0 +1,33 @@
+{
+  "identifier" : "C98B4F5A-1234-5678-9ABC-SURFPICK0001",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "C98B4F5A-1234-5678-9ABC-SURFPICK0002",
+      "localizations" : [
+        {
+          "description" : "See all 10 nearest breaks ranked by quality, plus the home-screen widget.",
+          "displayName" : "Surf Pick Pro",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.quyenngo.surfpick.pro",
+      "referenceName" : "Pro Unlock",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+    ]
+  },
+  "subscriptionGroups" : [],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}
