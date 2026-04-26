@@ -74,7 +74,7 @@ struct SettingsView: View {
                     Link(destination: URL(string: "https://github.com/quyenngo")!) {
                         Label("Surf Pick on the web", systemImage: "globe")
                     }
-                    Link(destination: URL(string: "mailto:hello@panamindpress.com?subject=Surf%20Pick%20feedback")!) {
+                    Link(destination: URL(string: "mailto:qngo9871@gmail.com?subject=Surf%20Pick%20feedback")!) {
                         Label("Send feedback", systemImage: "envelope")
                     }
                 } header: {

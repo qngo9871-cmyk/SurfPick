@@ -1,4 +1,6 @@
 import SwiftUI
+import UIKit
+import CoreLocation
 import SurfShared
 
 struct BreakDetailView: View {
@@ -117,10 +119,56 @@ struct BreakDetailView: View {
                     }
                 }
                 .padding(.horizontal, 16)
+
+                // Report wrong location
+                Button {
+                    openReportEmail()
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: "exclamationmark.bubble")
+                        Text("Report wrong location")
+                    }
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                }
+                .padding(.horizontal, 16)
                 .padding(.bottom, 24)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func openReportEmail() {
+        let coord = `break`.nearby.spot.coordinate
+        let name = `break`.nearby.spot.name
+        let dict = Bundle.main.infoDictionary ?? [:]
+        let version = dict["CFBundleShortVersionString"] as? String ?? "1.0"
+        let build = dict["CFBundleVersion"] as? String ?? "1"
+
+        let subject = "Surf Pick — Wrong location: \(name)"
+        let body = """
+        Spot: \(name)
+        Claimed coords: \(coord.latitude), \(coord.longitude)
+
+        Correct coords (paste from Google/Apple Maps long-press):
+
+
+        Notes (optional):
+
+
+        ---
+        Surf Pick v\(version) (\(build))
+        """
+
+        let allowed = CharacterSet.urlQueryAllowed
+        let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: allowed) ?? subject
+        let encodedBody = body.addingPercentEncoding(withAllowedCharacters: allowed) ?? body
+        let urlString = "mailto:qngo9871@gmail.com?subject=\(encodedSubject)&body=\(encodedBody)"
+        if let url = URL(string: urlString) {
+            UIApplication.shared.open(url)
+        }
     }
 
     private func tideSummary(_ tide: TideInfo) -> String {

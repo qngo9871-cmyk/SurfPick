@@ -7,6 +7,7 @@ struct RankedListView: View {
     @EnvironmentObject private var store: StoreKitManager
     @State private var showSettings = false
     @State private var showPaywall = false
+    @State private var showInfo = false
 
     /// Number of spots visible to free-tier users (the wedge stays visible: best-of-N is shown).
     private let freeTierVisibleCount = 3
@@ -49,10 +50,17 @@ struct RankedListView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        showSettings = true
-                    } label: {
-                        Image(systemName: "gearshape")
+                    HStack(spacing: 12) {
+                        Button {
+                            showSettings = true
+                        } label: {
+                            Image(systemName: "gearshape")
+                        }
+                        Button {
+                            showInfo = true
+                        } label: {
+                            Image(systemName: "info.circle")
+                        }
                     }
                 }
             }
@@ -63,6 +71,9 @@ struct RankedListView: View {
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
                     .environmentObject(store)
+            }
+            .sheet(isPresented: $showInfo) {
+                InfoView()
             }
         }
         .task {
