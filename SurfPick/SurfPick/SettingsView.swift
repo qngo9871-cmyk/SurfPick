@@ -29,7 +29,7 @@ struct SettingsView: View {
                             HStack {
                                 Label("Upgrade to Pro", systemImage: "lock.open.fill")
                                 Spacer()
-                                Text(store.product?.displayPrice ?? "$4.99")
+                                Text(store.displayPrice)
                                     .foregroundStyle(.secondary)
                             }
                         }

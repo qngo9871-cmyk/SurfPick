@@ -66,7 +66,7 @@ struct PaywallView: View {
                             if isPurchasing {
                                 ProgressView().tint(.white)
                             } else {
-                                Text("Unlock for \(displayPrice)")
+                                Text("Unlock for \(store.displayPrice)")
                                     .font(.headline)
                             }
                         }
@@ -120,10 +120,6 @@ struct PaywallView: View {
                 if newValue { dismiss() }
             }
         }
-    }
-
-    private var displayPrice: String {
-        store.product?.displayPrice ?? "$4.99"
     }
 
     private func runPurchase() async {

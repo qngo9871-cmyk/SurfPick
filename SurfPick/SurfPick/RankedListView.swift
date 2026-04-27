@@ -9,7 +9,7 @@ struct RankedListView: View {
     @State private var showPaywall = false
     @State private var showInfo = false
 
-    /// Number of spots visible to free-tier users (the wedge stays visible: best-of-N is shown).
+    // Wedge: free tier still sees the ranking, just truncated.
     private let freeTierVisibleCount = 3
 
     var body: some View {
@@ -184,7 +184,7 @@ struct RankedListView: View {
                         } else {
                             LockedRowsBlock(
                                 rows: lockedRows,
-                                priceLabel: store.product?.displayPrice ?? "$4.99",
+                                priceLabel: store.displayPrice,
                                 onUnlock: { showPaywall = true }
                             )
                             .padding(.horizontal, 16)
@@ -415,13 +415,7 @@ struct RatingDot: View {
             .frame(width: size, height: size)
     }
 
-    private var color: Color {
-        switch rating {
-        case .good: return Color(red: 52/255, green: 199/255, blue: 89/255)   // iOS green
-        case .ok:   return Color(red: 255/255, green: 149/255, blue: 0/255)   // iOS orange
-        case .poor: return Color(red: 255/255, green: 59/255, blue: 48/255)   // iOS red
-        }
-    }
+    private var color: Color { .rating(rating) }
 }
 
 struct ConditionsRow: View {

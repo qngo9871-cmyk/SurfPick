@@ -10,6 +10,8 @@ final class StoreKitManager: ObservableObject {
     @Published private(set) var product: Product?
     @Published private(set) var purchaseError: String?
 
+    var displayPrice: String { product?.displayPrice ?? "$4.99" }
+
     private var transactionListener: Task<Void, Never>?
 
     init() {
@@ -26,16 +28,21 @@ final class StoreKitManager: ObservableObject {
     }
 
     func refreshState() async {
-        await loadProduct()
-        var hasPro = false
+        async let productLoad: Void = loadProduct()
+        async let entitlement: Bool = checkEntitlement()
+        let (_, hasPro) = await (productLoad, entitlement)
+        if isPro != hasPro { isPro = hasPro }
+    }
+
+    private func checkEntitlement() async -> Bool {
         for await verification in Transaction.currentEntitlements {
             if case .verified(let tx) = verification,
                tx.productID == Self.proProductID,
                tx.revocationDate == nil {
-                hasPro = true
+                return true
             }
         }
-        isPro = hasPro
+        return false
     }
 
     func loadProduct() async {

@@ -1,4 +1,5 @@
 import SwiftUI
+import SurfShared
 
 struct InfoView: View {
     @Environment(\.dismiss) private var dismiss
@@ -16,17 +17,17 @@ struct InfoView: View {
                         Text("Ratings")
                             .font(.title3.bold())
                         ratingRow(
-                            color: Color(red: 52/255, green: 199/255, blue: 89/255),
+                            rating: .good,
                             title: "Green — go",
                             description: "Clean offshore wind, decent wave height and period. Worth the drive."
                         )
                         ratingRow(
-                            color: Color(red: 255/255, green: 149/255, blue: 0/255),
+                            rating: .ok,
                             title: "Amber — maybe",
                             description: "Borderline. Cross-shore wind, small or short-period swell. Could be okay if you're already there."
                         )
                         ratingRow(
-                            color: Color(red: 255/255, green: 59/255, blue: 48/255),
+                            rating: .poor,
                             title: "Red — sit it out",
                             description: "Onshore wind, flat or messy. Save the drive."
                         )
@@ -48,7 +49,7 @@ struct InfoView: View {
                     )
 
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Surf Pick \(appVersion)")
+                        Text("Surf Pick \(Bundle.main.appVersionString)")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(.secondary)
                         Text("Conditions data © Open-Meteo. Surf Pick is built by Quyen Ngo.")
@@ -81,11 +82,9 @@ struct InfoView: View {
         }
     }
 
-    private func ratingRow(color: Color, title: String, description: String) -> some View {
+    private func ratingRow(rating: Rating, title: String, description: String) -> some View {
         HStack(alignment: .top, spacing: 14) {
-            Circle()
-                .fill(color)
-                .frame(width: 18, height: 18)
+            RatingDot(rating: rating, size: 18)
                 .padding(.top, 4)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title).font(.body.weight(.semibold))
@@ -95,13 +94,6 @@ struct InfoView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
-    }
-
-    private var appVersion: String {
-        let dict = Bundle.main.infoDictionary ?? [:]
-        let version = dict["CFBundleShortVersionString"] as? String ?? "1.0"
-        let build = dict["CFBundleVersion"] as? String ?? "1"
-        return "v\(version) (\(build))"
     }
 }
 
