@@ -20,7 +20,13 @@ final class StoreKitManager: ObservableObject {
                 await self?.handle(verification: result)
             }
         }
+        #if DEBUG
+        // Dev-only: bypass paywall on builds run from Xcode so the developer's
+        // personal device behaves as if Pro is unlocked. Stripped from Release.
+        isPro = true
+        #else
         Task { await refreshState() }
+        #endif
     }
 
     deinit {

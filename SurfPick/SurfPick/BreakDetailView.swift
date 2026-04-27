@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import Charts
 import SurfShared
 
 struct BreakDetailView: View {
@@ -51,12 +52,7 @@ struct BreakDetailView: View {
                         )
 
                         if let tide = c.tideInfo {
-                            DetailCard(
-                                icon: "chart.line.uptrend.xyaxis",
-                                title: "Tide",
-                                primary: tideSummary(tide),
-                                secondary: "Today's high & low"
-                            )
+                            TideCard(tide: tide)
                         }
                     }
                     .padding(.horizontal, 16)
@@ -170,15 +166,166 @@ struct BreakDetailView: View {
         }
     }
 
-    private func tideSummary(_ tide: TideInfo) -> String {
-        var parts: [String] = []
-        if let highTime = tide.nextHighTime {
-            parts.append("H \(highTime)")
+}
+
+private struct TideLevelPoint: Identifiable {
+    let id: Int
+    let hour: Int
+    let level: Double
+}
+
+struct TideCard: View {
+    let tide: TideInfo
+
+    private var now: Date { Date() }
+
+    private var currentX: Double {
+        let cal = Calendar.current
+        let h = cal.component(.hour, from: now)
+        let m = cal.component(.minute, from: now)
+        return Double(h) + Double(m) / 60.0
+    }
+
+    private var points: [TideLevelPoint] {
+        tide.hourlyLevels
+            .sorted { $0.hour < $1.hour }
+            .map { TideLevelPoint(id: $0.hour, hour: $0.hour, level: $0.level) }
+    }
+
+    private var currentLevel: Double? {
+        let pts = points
+        guard !pts.isEmpty else { return nil }
+        let x = currentX
+        for i in 0..<(pts.count - 1) {
+            let a = pts[i], b = pts[i+1]
+            if Double(a.hour) <= x && x <= Double(b.hour) {
+                let span = Double(b.hour - a.hour)
+                guard span > 0 else { return a.level }
+                let t = (x - Double(a.hour)) / span
+                return a.level + (b.level - a.level) * t
+            }
         }
-        if let lowTime = tide.nextLowTime {
-            parts.append("L \(lowTime)")
+        return pts.last?.level
+    }
+
+    // Local maxima/minima across the full day, so we can find the *next* event
+    // even when the day's single H and L (from TideInfo) are both already past.
+    private var turningPoints: [(hour: Int, kind: String)] {
+        let pts = points
+        guard pts.count >= 3 else { return [] }
+        var out: [(hour: Int, kind: String)] = []
+        for i in 1..<(pts.count - 1) {
+            let prev = pts[i-1].level, curr = pts[i].level, next = pts[i+1].level
+            if curr > prev && curr > next { out.append((pts[i].hour, "H")) }
+            if curr < prev && curr < next { out.append((pts[i].hour, "L")) }
         }
-        return parts.isEmpty ? "—" : parts.joined(separator: " · ")
+        return out
+    }
+
+    private var trend: String {
+        let pts = points
+        guard pts.count >= 2 else { return "" }
+        let x = currentX
+        for i in 0..<(pts.count - 1) {
+            let a = pts[i], b = pts[i+1]
+            if Double(a.hour) <= x && x <= Double(b.hour) {
+                let delta = b.level - a.level
+                if delta > 0.05 { return "Rising" }
+                if delta < -0.05 { return "Falling" }
+                return "Slack"
+            }
+        }
+        return ""
+    }
+
+    private var headlineText: String {
+        let next = turningPoints.first { Double($0.hour) > currentX }
+        guard !trend.isEmpty else { return "—" }
+        guard let next else { return trend }
+        let hoursUntil = max(0, Int((Double(next.hour) - currentX).rounded()))
+        let label = next.kind == "H" ? "high" : "low"
+        if hoursUntil == 0 { return "\(trend) · \(label) now" }
+        return "\(trend) · \(label) in \(hoursUntil)h"
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 14) {
+                Image(systemName: "chart.line.uptrend.xyaxis")
+                    .font(.title2)
+                    .foregroundStyle(.tint)
+                    .frame(width: 32)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Tide")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                        .textCase(.uppercase)
+                    Text(headlineText)
+                        .font(.title3.bold())
+                }
+                Spacer()
+            }
+
+            if points.count >= 2 {
+                Chart {
+                    ForEach(points) { p in
+                        AreaMark(
+                            x: .value("Hour", p.hour),
+                            y: .value("Level", p.level)
+                        )
+                        .interpolationMethod(.catmullRom)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [Color.blue.opacity(0.25), Color.blue.opacity(0.0)],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+
+                        LineMark(
+                            x: .value("Hour", p.hour),
+                            y: .value("Level", p.level)
+                        )
+                        .interpolationMethod(.catmullRom)
+                        .foregroundStyle(Color.blue.opacity(0.8))
+                        .lineStyle(StrokeStyle(lineWidth: 2))
+                    }
+
+                    if let level = currentLevel {
+                        RuleMark(x: .value("Now", currentX))
+                            .foregroundStyle(Color.green.opacity(0.35))
+                            .lineStyle(StrokeStyle(lineWidth: 1, dash: [3, 3]))
+
+                        PointMark(
+                            x: .value("Now", currentX),
+                            y: .value("Level", level)
+                        )
+                        .foregroundStyle(Color.green)
+                        .symbolSize(120)
+                    }
+                }
+                .chartXScale(domain: 0...23)
+                .chartXAxis {
+                    AxisMarks(values: [0, 6, 12, 18]) { val in
+                        AxisValueLabel {
+                            if let h = val.as(Int.self) {
+                                Text(String(format: "%02d", h))
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        AxisGridLine().foregroundStyle(Color.white.opacity(0.06))
+                    }
+                }
+                .chartYAxis(.hidden)
+                .frame(height: 80)
+            }
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(Color(uiColor: .secondarySystemBackground))
+        )
     }
 }
 
