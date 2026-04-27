@@ -18,7 +18,8 @@ set -euo pipefail
 
 PROJECT_ROOT="/Users/user/SurfPick"
 SHARED_PACKAGE="/Users/user/SurfShared"
-XCODEPROJ="${PROJECT_ROOT}/SurfPick.xcodeproj"
+XCODE_DIR="${PROJECT_ROOT}/SurfPick"
+XCODEPROJ="${XCODE_DIR}/SurfPick.xcodeproj"
 
 echo "=========================================="
 echo "Surf Pick rebuild"
@@ -75,7 +76,7 @@ echo ""
 
 # 5. Build the SurfPick app
 echo "🔨 Building SurfPick app for iOS..."
-cd "${PROJECT_ROOT}"
+cd "${XCODE_DIR}"
 BUILD_OUTPUT=$(xcodebuild -project SurfPick.xcodeproj -scheme SurfPick -destination 'generic/platform=iOS' -configuration Debug build 2>&1 | tail -10)
 if echo "${BUILD_OUTPUT}" | grep -q "BUILD SUCCEEDED"; then
   echo "   ✅ SurfPick builds cleanly."
