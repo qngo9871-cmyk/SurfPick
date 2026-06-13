@@ -152,6 +152,19 @@ Free version delivers the core promise (the ranked decision is visible). Pro add
 
 ## Current State
 
+- 2026-06-13 — **App Intents / Siri AI adapter implemented and compiling** (per `APPINTENTS_SURFPICK_HANDOVER.md`). 4 new files, thin adapter over SurfShared, no ranking/fetch logic touched:
+  - `SurfPick/Intents/SurfBreakEntity.swift` — `AppEntity` + `SurfBreakQuery` (returns [] for pilot; intent produces ranked entities directly).
+  - `SurfPick/Intents/FindBestBreakIntent.swift` — fetch+rank loop (`SurfSpotFinder.findNearest` → `ForecastService.fetchConditions` → `ConditionsCalculator.overallRating`), best = lowest `Rating` rawValue. Spoken dialog + snippet.
+  - `SurfPick/Intents/SurfPickShortcuts.swift` — `AppShortcutsProvider`, 3 phrases (one with `\(.applicationName)`).
+  - `SurfPick/Views/BreakRankingSnippet.swift` — Siri inline result view.
+  - **Auto-registration:** project is the Xcode 16 synchronized-folder format (`objectVersion = 77`, `PBXFileSystemSynchronizedRootGroup`), so files dropped into the `SurfPick/` target folder are auto-included — no pbxproj edit, no manual drag needed.
+  - **VERIFY #1 (View Annotation modifier) resolved:** there is no separate annotation modifier to add. The snippet attaches via `.result(dialog:view:)` (stable API, lives in the `_AppIntents_SwiftUI` cross-import overlay — requires importing **both** `AppIntents` and `SwiftUI` in the intent file, which is the one non-obvious gotcha). `ShowsSnippetView` surfaces it inline.
+  - **VERIFY #2 (one-shot location) resolved:** reused `SurfShared.LocationManager().requestLocation()` (existing async one-shot, 8s timeout, no background location) — same call the app's view model makes.
+  - **Deviation from handover snippet:** the doc's early `return .result(dialog: ...)` (dialog-only) does not satisfy the `& ShowsSnippetView` return type and won't compile. Replaced with thrown `SurfIntentError` cases conforming to `CustomLocalizedStringResourceConvertible` so Siri still speaks the failure.
+  - **Build:** `xcodebuild` for iPhone 17 Pro simulator → **BUILD SUCCEEDED**, no warnings. Also built for device + installed on iQ (iPhone 13 Pro Max, iOS 26.5) via `devicectl` — Siri App Shortcut testable on-device (App Shortcuts work without Apple Intelligence; the iOS-27 semantic layer needs iPhone 15 Pro+).
+  - **Deployment target lowered 26.4 → 17.0** on all 10 build configs (app + widget + tests) — the 26.4 floor was an SDK-default drift, not a requirement. All App Intents APIs used are iOS 16+, so 17.0 compiles clean with zero functionality lost. Standing rule: always use the lowest iOS that still builds, for max device reach.
+  - **Not done (handover §7/§8):** App Intents Testing-framework tests and on-device Siri/Spotlight trigger test — left for a follow-up (require system pathways / device).
+
 - 2026-04-27 — Added tide sparkline to BreakDetailView. The TIDE card now shows a contextual headline ("Rising · high in 2h" / "Falling · low in 4h" / "Slack") plus a 24h Swift Charts line graph with gradient fill and a green "now" dot (with dashed vertical guide). Local turning-point detection runs in the view so we find the *next* H/L even when the SurfShared parser's single-H/single-L for the day are both already past. Files touched: `SurfPick/SurfPick/BreakDetailView.swift` only — SurfShared untouched.
 
   **Canonical detail-screen screenshot for App Store submission**: `/Users/user/Downloads/Screenshot 2026-04-27 at 3.15.05 pm.png` (Skennars Head, "Rising · high in 2h"). Do **not** use the earlier 2:54pm screenshot — its tide row shows the misleading "H 05:00 · L 11:00 · Today's high & low" copy that has since been replaced.
@@ -211,6 +224,14 @@ Free version delivers the core promise (the ranked decision is visible). Pro add
    - Generate icon (DALL-E prompt: "minimalist green pin on stylized coastline, app icon style, deep blue ocean")
    - Take screenshots from Q's iPhone running the app
    - Set up App Store Connect entry, paste ASO assets above
+
+8. **App Intents / Siri AI adoption (iOS 27)** — PILOT app for the portfolio
+   - Spec: `/Users/user/SurfPick/APPINTENTS_SURFPICK_HANDOVER.md` (ready, verified against SurfShared source 2026-06-13)
+   - Adds one voice intent: "best surf break right now" spoken hands-free + Spotlight reachability
+   - Thin adapter over SurfShared (SurfSpotFinder.findNearest → ForecastService.fetchConditions → ConditionsCalculator.overallRating). Do NOT touch SurfShared logic.
+   - 4 new files in SurfPick target. Note: hand-made .xcodeproj, so new files may need manual drag into target in Xcode.
+   - 2 minor VERIFY items (View Annotation modifier name, one-shot location helper) — CLC resolves during build.
+   - This is the reference implementation; Big Things AU copies the pattern next (`/Users/user/bigthing/APPINTENTS_BIGTHINGS_HANDOVER.md`).
 
 ## Instructions for Claude Code
 
