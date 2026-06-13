@@ -5,12 +5,14 @@ import StoreKit
 @MainActor
 final class StoreKitManager: ObservableObject {
     static let proProductID = "com.quyenngo.surfpick.pro"
+    private static let devUnlockKey = "surfpick.devUnlock"
 
     @Published private(set) var isPro: Bool = false
     @Published private(set) var product: Product?
     @Published private(set) var purchaseError: String?
 
     var displayPrice: String { product?.displayPrice ?? "$4.99" }
+    var isDevUnlocked: Bool { UserDefaults.standard.bool(forKey: Self.devUnlockKey) }
 
     private var transactionListener: Task<Void, Never>?
 
@@ -19,6 +21,9 @@ final class StoreKitManager: ObservableObject {
             for await result in Transaction.updates {
                 await self?.handle(verification: result)
             }
+        }
+        if isDevUnlocked {
+            isPro = true
         }
         #if DEBUG
         // Dev-only: bypass paywall on builds run from Xcode so the developer's
@@ -41,6 +46,7 @@ final class StoreKitManager: ObservableObject {
     }
 
     private func checkEntitlement() async -> Bool {
+        if isDevUnlocked { return true }
         for await verification in Transaction.currentEntitlements {
             if case .verified(let tx) = verification,
                tx.productID == Self.proProductID,
@@ -49,6 +55,19 @@ final class StoreKitManager: ObservableObject {
             }
         }
         return false
+    }
+
+    /// Toggles the hidden developer-unlock flag (set by tapping the Settings
+    /// "About" footer 7 times). Persists across launches. Returns the new state.
+    func toggleDevUnlock() -> Bool {
+        let newValue = !isDevUnlocked
+        UserDefaults.standard.set(newValue, forKey: Self.devUnlockKey)
+        if newValue {
+            isPro = true
+        } else {
+            Task { await refreshState() }
+        }
+        return newValue
     }
 
     func loadProduct() async {

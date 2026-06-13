@@ -8,6 +8,8 @@ struct SettingsView: View {
     @State private var showPaywall = false
     @State private var isRestoring = false
     @State private var restoreMessage: String?
+    @State private var aboutTapCount: Int = 0
+    @State private var devUnlockMessage: String?
 
     var body: some View {
         NavigationStack {
@@ -80,7 +82,17 @@ struct SettingsView: View {
                 } header: {
                     Text("About")
                 } footer: {
-                    Text("Surf Pick — where to surf right now.")
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Surf Pick — where to surf right now.")
+                        if let devUnlockMessage {
+                            Text(devUnlockMessage)
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+                    .onTapGesture { handleAboutTap() }
                 }
             }
             .navigationTitle("Settings")
@@ -97,6 +109,17 @@ struct SettingsView: View {
                 PaywallView()
                     .environmentObject(store)
             }
+        }
+    }
+
+    private func handleAboutTap() {
+        aboutTapCount += 1
+        if aboutTapCount >= 7 {
+            let on = store.toggleDevUnlock()
+            devUnlockMessage = on ? "Dev unlock ON — Pro features active" : "Dev unlock OFF"
+            aboutTapCount = 0
+        } else if aboutTapCount >= 3 {
+            devUnlockMessage = "\(7 - aboutTapCount) more taps…"
         }
     }
 
