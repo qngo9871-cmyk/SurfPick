@@ -12,7 +12,13 @@ final class StoreKitManager: ObservableObject {
     @Published private(set) var purchaseError: String?
 
     var displayPrice: String { product?.displayPrice ?? "$4.99" }
+    // Dev-only test unlock. Hard-wired to false in Release so no customer build can
+    // be flagged as Pro through it, regardless of any persisted UserDefaults value.
+    #if DEBUG
     var isDevUnlocked: Bool { UserDefaults.standard.bool(forKey: Self.devUnlockKey) }
+    #else
+    var isDevUnlocked: Bool { false }
+    #endif
 
     private var transactionListener: Task<Void, Never>?
 
@@ -60,6 +66,7 @@ final class StoreKitManager: ObservableObject {
     /// Toggles the hidden developer-unlock flag (set by tapping the Settings
     /// "About" footer 7 times). Persists across launches. Returns the new state.
     func toggleDevUnlock() -> Bool {
+        #if DEBUG
         let newValue = !isDevUnlocked
         UserDefaults.standard.set(newValue, forKey: Self.devUnlockKey)
         if newValue {
@@ -68,6 +75,10 @@ final class StoreKitManager: ObservableObject {
             Task { await refreshState() }
         }
         return newValue
+        #else
+        // No-op in Release: the dev unlock cannot be engaged in customer builds.
+        return false
+        #endif
     }
 
     func loadProduct() async {

@@ -8,8 +8,10 @@ struct SettingsView: View {
     @State private var showPaywall = false
     @State private var isRestoring = false
     @State private var restoreMessage: String?
+    #if DEBUG
     @State private var aboutTapCount: Int = 0
     @State private var devUnlockMessage: String?
+    #endif
 
     var body: some View {
         NavigationStack {
@@ -82,6 +84,9 @@ struct SettingsView: View {
                 } header: {
                     Text("About")
                 } footer: {
+                    #if DEBUG
+                    // Dev-only: tap the footer 7x to toggle a Pro unlock for testing.
+                    // Compiled out of Release builds so customers never see or trigger it.
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Surf Pick — where to surf right now.")
                         if let devUnlockMessage {
@@ -93,6 +98,9 @@ struct SettingsView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .contentShape(Rectangle())
                     .onTapGesture { handleAboutTap() }
+                    #else
+                    Text("Surf Pick — where to surf right now.")
+                    #endif
                 }
             }
             .navigationTitle("Settings")
@@ -112,6 +120,7 @@ struct SettingsView: View {
         }
     }
 
+    #if DEBUG
     private func handleAboutTap() {
         aboutTapCount += 1
         if aboutTapCount >= 7 {
@@ -122,6 +131,7 @@ struct SettingsView: View {
             devUnlockMessage = "\(7 - aboutTapCount) more taps…"
         }
     }
+    #endif
 
     private func runRestore() async {
         isRestoring = true
