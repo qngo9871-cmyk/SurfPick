@@ -13,15 +13,24 @@ import SurfShared
 /// against the "Bring your app to Siri" session, add it here as a 2-line change.
 struct BreakRankingSnippet: View {
     let breaks: [SurfBreakEntity]
+    /// When false (free tier), break names are blurred so the spoken/visual
+    /// answer matches the on-screen paywall — Pro is required to reveal them.
+    var revealed: Bool = true
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             ForEach(breaks, id: \.id) { b in
                 HStack {
                     Text(b.name)
+                        .blur(radius: revealed ? 0 : 6)
                     Spacer()
                     Text(b.ratingLabel.capitalized)
                         .foregroundStyle(color(for: b.ratingLabel))
                 }
+            }
+            if !revealed {
+                Text("Open Surf Pick to reveal the breaks")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
         }
         .padding()

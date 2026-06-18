@@ -5,11 +5,14 @@ import SurfShared
 struct RankedListView: View {
     @StateObject private var viewModel = RankedSurfViewModel()
     @EnvironmentObject private var store: StoreKitManager
+    @Environment(\.requestReview) private var requestReview
     @State private var showSettings = false
     @State private var showPaywall = false
     @State private var showInfo = false
+    @State private var heroRevealDecided = false
+    @State private var heroRevealed = true
 
-    // Wedge: free tier still sees the ranking, just truncated.
+    // Free tier still sees the runner-up breaks; the #1 pick is the paid reveal.
     private let freeTierVisibleCount = 3
 
     var body: some View {
@@ -135,9 +138,14 @@ struct RankedListView: View {
         ScrollView {
             VStack(spacing: 0) {
                 if let pick = viewModel.rankedBreaks.first {
-                    HeroSpotCard(break: pick)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 8)
+                    HeroSpotCard(
+                        break: pick,
+                        revealed: heroRevealed,
+                        priceLabel: store.displayPrice,
+                        onUnlock: { showPaywall = true }
+                    )
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
                 }
 
                 if viewModel.rankedBreaks.count > 1 {
@@ -205,6 +213,33 @@ struct RankedListView: View {
         .refreshable {
             viewModel.refresh()
         }
+        .onAppear { decideReveal(for: viewModel.rankedBreaks.first) }
+        .onChange(of: store.isPro) { _, pro in if pro { heroRevealed = true } }
+    }
+
+    /// Decides once per app session whether the #1 hero is shown or blurred.
+    /// Pro always sees it; otherwise the first few opens are free, then it blurs.
+    private func decideReveal(for pick: RankedBreak?) {
+        guard !heroRevealDecided else { return }
+        heroRevealDecided = true
+        if store.isPro { heroRevealed = true; return }
+        if FreeRevealStore.hasFreeRevealsLeft {
+            heroRevealed = true
+            FreeRevealStore.consume()
+            maybeAskReview(for: pick)
+        } else {
+            heroRevealed = false
+        }
+    }
+
+    /// Ask for a review at a delight moment — a free user who's just been shown a
+    /// genuinely good pick. Once only. Targets the "many downloads, 1 review" gap.
+    private func maybeAskReview(for pick: RankedBreak?) {
+        guard !FreeRevealStore.reviewAsked,
+              FreeRevealStore.used >= 2,
+              pick?.rating == .good else { return }
+        FreeRevealStore.markReviewAsked()
+        requestReview()
     }
 
     private var errorLocationView: some View {
@@ -253,8 +288,23 @@ struct RankedListView: View {
 
 struct HeroSpotCard: View {
     let `break`: RankedBreak
+    var revealed: Bool = true
+    var priceLabel: String = "$4.99"
+    var onUnlock: (() -> Void)? = nil
 
     var body: some View {
+        Group {
+            if revealed { revealedCard } else { lockedCard }
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(uiColor: .secondarySystemBackground))
+        )
+    }
+
+    // The full #1 pick — name, conditions, directions.
+    private var revealedCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top, spacing: 12) {
                 if let rating = `break`.rating {
@@ -302,11 +352,60 @@ struct HeroSpotCard: View {
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
         }
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(uiColor: .secondarySystemBackground))
-        )
+    }
+
+    // The teaser — proves a better spot exists (rating + distance) but hides which
+    // one it is and the conditions/directions until unlocked.
+    private var lockedCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .top, spacing: 12) {
+                if let rating = `break`.rating {
+                    RatingDot(rating: rating, size: 36)
+                } else {
+                    Circle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(width: 36, height: 36)
+                }
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Your best bet right now")
+                        .font(.headline)
+                    Text(`break`.nearby.formattedDistance)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    Text(`break`.nearby.spot.name)
+                        .font(.title3.bold())
+                        .lineLimit(1)
+                        .blur(radius: 7)
+                        .accessibilityHidden(true)
+                }
+                Spacer()
+            }
+
+            if let c = `break`.conditions {
+                ConditionsRow(conditions: c, idealWindBearing: `break`.nearby.spot.idealWindBearing)
+                    .blur(radius: 6)
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true)
+            }
+
+            Button { onUnlock?() } label: {
+                VStack(spacing: 2) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "lock.fill")
+                        Text("Reveal the #1 pick")
+                            .font(.headline)
+                    }
+                    Text("See which break + get directions · one-time \(priceLabel)")
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.85))
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 6)
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+        }
     }
 }
 

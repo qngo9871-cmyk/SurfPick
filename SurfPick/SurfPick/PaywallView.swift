@@ -23,10 +23,10 @@ struct PaywallView: View {
                         .padding(.top, 8)
 
                     VStack(spacing: 8) {
-                        Text("See all 10 nearest breaks")
+                        Text("Reveal the #1 pick")
                             .font(.title2.bold())
                             .multilineTextAlignment(.center)
-                        Text("Stop guessing — see every break within reach, ranked by quality.")
+                        Text("Free shows the runner-up breaks. Pro reveals the best spot right now — which break, its conditions, and directions.")
                             .font(.body)
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
@@ -35,9 +35,14 @@ struct PaywallView: View {
 
                     VStack(alignment: .leading, spacing: 18) {
                         FeatureRow(
+                            icon: "trophy.fill",
+                            title: "The #1 best spot, revealed",
+                            subtitle: "See which break is firing + one-tap directions."
+                        )
+                        FeatureRow(
                             icon: "list.number",
                             title: "All 10 nearest spots",
-                            subtitle: "Free shows the top 3 — Pro unlocks the rest."
+                            subtitle: "Free shows the runners-up — Pro unlocks the full ranking."
                         )
                         FeatureRow(
                             icon: "square.fill.text.grid.1x2",

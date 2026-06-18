@@ -57,7 +57,7 @@ struct SettingsView: View {
                     if let restoreMessage {
                         Text(restoreMessage)
                     } else {
-                        Text("Pro unlocks all 10 nearest spots and the home-screen widget. One-time payment, no subscription.")
+                        Text("Pro reveals the #1 best spot, unlocks all 10 nearest spots and the home-screen widget. One-time payment, no subscription.")
                     }
                 }
 

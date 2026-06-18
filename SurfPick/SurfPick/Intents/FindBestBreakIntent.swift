@@ -49,11 +49,20 @@ struct FindBestBreakIntent: AppIntent {
             SurfBreakEntity(id: ns.spot.id, name: ns.spot.name, ratingLabel: ratingWord(r))
         }
 
-        let spoken = "\(best.0.spot.name) is your best bet right now — conditions are \(label), \(best.0.formattedDistance)."
+        // Gate the named answer behind Pro — mirrors the on-screen blur, so free
+        // users can't bypass the paywall via Siri. Free hears a teaser; Pro hears
+        // the actual break + sees the unredacted ranked snippet.
+        let isPro = await ProAccess.isPro()
+        let spoken: String
+        if isPro {
+            spoken = "\(best.0.spot.name) is your best bet right now — conditions are \(label), \(best.0.formattedDistance)."
+        } else {
+            spoken = "Your best bet right now is a \(label) break, \(best.0.formattedDistance). Open Surf Pick to see which break it is and get directions."
+        }
 
         return .result(
             dialog: IntentDialog(stringLiteral: spoken),
-            view: BreakRankingSnippet(breaks: entities)
+            view: BreakRankingSnippet(breaks: entities, revealed: isPro)
         )
     }
 
