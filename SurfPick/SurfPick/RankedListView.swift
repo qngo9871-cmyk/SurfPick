@@ -6,14 +6,14 @@ struct RankedListView: View {
     @StateObject private var viewModel = RankedSurfViewModel()
     @EnvironmentObject private var store: StoreKitManager
     @Environment(\.requestReview) private var requestReview
-    @State private var showSettings = false
+    @State private var showSettings = ProcessInfo.processInfo.arguments.contains("-previewSettings")
     @State private var showPaywall = false
-    @State private var showInfo = false
+    @State private var showInfo = ProcessInfo.processInfo.arguments.contains("-previewInfo")
     @State private var heroRevealDecided = false
     @State private var heroRevealed = true
-
-    // Free tier still sees the runner-up breaks; the #1 pick is the paid reveal.
-    private let freeTierVisibleCount = 3
+    // DEBUG screenshot helper: "-previewDetail N" auto-pushes ranked break N's detail.
+    @State private var screenshotDetail: RankedBreak?
+    @State private var showScreenshotDetail = false
 
     var body: some View {
         NavigationStack {
@@ -78,10 +78,23 @@ struct RankedListView: View {
             .sheet(isPresented: $showInfo) {
                 InfoView()
             }
+            .navigationDestination(isPresented: $showScreenshotDetail) {
+                if let b = screenshotDetail { BreakDetailView(break: b) }
+            }
         }
         .task {
             if viewModel.state == .idle {
                 viewModel.fetch()
+            }
+        }
+        .onChange(of: viewModel.rankedBreaks.count) { _, count in
+            let args = ProcessInfo.processInfo.arguments
+            if let i = args.firstIndex(of: "-previewDetail"),
+               i + 1 < args.count, let n = Int(args[i + 1]), n < count {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    screenshotDetail = viewModel.rankedBreaks[n]
+                    showScreenshotDetail = true
+                }
             }
         }
     }
@@ -160,25 +173,45 @@ struct RankedListView: View {
                     .padding(.bottom, 8)
 
                     let breaks = viewModel.rankedBreaks
-                    let freeRows = Array(breaks.dropFirst().prefix(freeTierVisibleCount - 1))
-                    let lockedRows = Array(breaks.dropFirst(freeTierVisibleCount))
+                    // Paywall split (2026-07-16, matches Android): rank #2 is an individually
+                    // blurred teaser, rank #3 is the one free pick, ranks #4-10 lock as a group.
+                    let rank2 = breaks.count > 1 ? breaks[1] : nil
+                    let rank3 = breaks.count > 2 ? breaks[2] : nil
+                    let tailRows = Array(breaks.dropFirst(3))
 
                     LazyVStack(spacing: 8) {
-                        ForEach(freeRows) { item in
+                        if let rank2 {
+                            if store.isPro {
+                                NavigationLink {
+                                    BreakDetailView(break: rank2)
+                                } label: {
+                                    CompactSpotRow(break: rank2)
+                                }
+                                .buttonStyle(.plain)
+                            } else {
+                                Button {
+                                    showPaywall = true
+                                } label: {
+                                    BlurredCompactRow(break: rank2)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        if let rank3 {
                             NavigationLink {
-                                BreakDetailView(break: item)
+                                BreakDetailView(break: rank3)
                             } label: {
-                                CompactSpotRow(break: item)
+                                CompactSpotRow(break: rank3)
                             }
                             .buttonStyle(.plain)
                         }
                     }
                     .padding(.horizontal, 16)
 
-                    if !lockedRows.isEmpty {
+                    if !tailRows.isEmpty {
                         if store.isPro {
                             LazyVStack(spacing: 8) {
-                                ForEach(lockedRows) { item in
+                                ForEach(tailRows) { item in
                                     NavigationLink {
                                         BreakDetailView(break: item)
                                     } label: {
@@ -191,7 +224,7 @@ struct RankedListView: View {
                             .padding(.top, 8)
                         } else {
                             LockedRowsBlock(
-                                rows: lockedRows,
+                                rows: tailRows,
                                 priceLabel: store.displayPrice,
                                 onUnlock: { showPaywall = true }
                             )
@@ -447,6 +480,56 @@ struct CompactSpotRow: View {
                 .font(.caption.weight(.medium))
                 .foregroundStyle(.secondary)
             Image(systemName: "chevron.right")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.tertiary)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color(uiColor: .secondarySystemBackground))
+        )
+    }
+}
+
+// MARK: - Rank #2's individually blurred teaser row
+
+/// Rating + distance visible, name/conditions blurred, taps through to the paywall.
+struct BlurredCompactRow: View {
+    let `break`: RankedBreak
+
+    var body: some View {
+        HStack(spacing: 12) {
+            if let rating = `break`.rating {
+                RatingDot(rating: rating, size: 18)
+            } else {
+                Circle()
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 18, height: 18)
+            }
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(`break`.nearby.spot.name)
+                    .font(.body.weight(.medium))
+                    .lineLimit(1)
+                    .blur(radius: 5)
+                    .accessibilityHidden(true)
+                if let c = `break`.conditions {
+                    Text("\(String(format: "%.1f", c.waveHeight))m · \(c.wavePeriod)s · \(c.windSpeed)k \(compassDirection(from: c.windDirection))")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .blur(radius: 5)
+                        .accessibilityHidden(true)
+                }
+            }
+
+            Spacer()
+
+            Text(`break`.nearby.formattedDistance)
+                .font(.caption.weight(.medium))
+                .foregroundStyle(.secondary)
+            Image(systemName: "lock.fill")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.tertiary)
         }
