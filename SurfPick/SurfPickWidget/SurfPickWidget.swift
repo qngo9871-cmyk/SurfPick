@@ -1,27 +1,50 @@
 import WidgetKit
 import SwiftUI
 import CoreLocation
+import StoreKit
 import SurfShared
+
+// MARK: - Pro entitlement
+
+/// Duplicates `ProAccess.isPro()` from the main app target (`FreeRevealStore.swift`).
+/// The widget extension is a separate synchronized-folder target and doesn't share
+/// that file's target membership, so this is a standalone StoreKit entitlement
+/// check rather than a shared import — same product ID, same logic.
+enum WidgetProAccess {
+    static let proProductID = "com.quyenngo.surfpick.pro"
+
+    static func isPro() async -> Bool {
+        for await result in Transaction.currentEntitlements {
+            if case .verified(let tx) = result,
+               tx.productID == proProductID, tx.revocationDate == nil {
+                return true
+            }
+        }
+        return false
+    }
+}
 
 // MARK: - Timeline Entry
 
 struct SurfPickEntry: TimelineEntry {
     let date: Date
     let topBreak: TopBreakSnapshot?
+    let isPro: Bool
 
     /// State the widget renders. Mirrors AppState but simplified.
     enum State {
         case loaded(TopBreakSnapshot)
+        case locked
         case noLocation
         case noData
     }
 
+    /// Free users never see the actual top-pick answer here — that's the same
+    /// thing the in-app paywall gates behind the one-time Pro unlock. Only show
+    /// the locked state when there's actually something to hide.
     var state: State {
-        if let b = topBreak {
-            return .loaded(b)
-        } else {
-            return .noData
-        }
+        guard let b = topBreak else { return .noData }
+        return isPro ? .loaded(b) : .locked
     }
 }
 
@@ -39,6 +62,9 @@ struct TopBreakSnapshot {
 
 struct SurfPickProvider: TimelineProvider {
     func placeholder(in context: Context) -> SurfPickEntry {
+        // Gallery preview always shows the loaded look (WidgetKit redacts it
+        // automatically as a loading skeleton) — the real entitlement check
+        // happens in fetchTopBreak() for the actual timeline.
         SurfPickEntry(
             date: Date(),
             topBreak: TopBreakSnapshot(
@@ -46,7 +72,8 @@ struct SurfPickProvider: TimelineProvider {
                 distanceText: "5.2 km away",
                 waveSummary: "1.4m · 11s · 8k SW",
                 ratingRaw: Rating.good.rawValue
-            )
+            ),
+            isPro: true
         )
     }
 
@@ -67,6 +94,7 @@ struct SurfPickProvider: TimelineProvider {
 
     /// Find nearest spot, fetch its conditions, return as widget entry.
     private func fetchTopBreak() async -> SurfPickEntry {
+        let isPro = await WidgetProAccess.isPro()
         let locationManager = LocationManager()
         let spotFinder = SurfSpotFinder()
         let forecastService = ForecastService()
@@ -116,13 +144,13 @@ struct SurfPickProvider: TimelineProvider {
                     waveSummary: "\(String(format: "%.1f", top.1.waveHeight))m · \(top.1.wavePeriod)s · \(top.1.windSpeed)k \(compassDirection(from: top.1.windDirection))",
                     ratingRaw: top.2.rawValue
                 )
-                return SurfPickEntry(date: Date(), topBreak: snapshot)
+                return SurfPickEntry(date: Date(), topBreak: snapshot, isPro: isPro)
             }
         } catch {
             // fall through
         }
 
-        return SurfPickEntry(date: Date(), topBreak: nil)
+        return SurfPickEntry(date: Date(), topBreak: nil, isPro: isPro)
     }
 }
 
@@ -135,6 +163,8 @@ struct SurfPickWidgetView: View {
         switch entry.state {
         case .loaded(let snapshot):
             loadedView(snapshot)
+        case .locked:
+            lockedView
         case .noLocation, .noData:
             emptyView
         }
@@ -170,6 +200,22 @@ struct SurfPickWidgetView: View {
                 .minimumScaleFactor(0.7)
         }
         .padding(.vertical, 2)
+    }
+
+    // Non-Pro users see a lock prompt instead of the actual best-break answer —
+    // that answer is exactly what the in-app paywall gates behind Pro.
+    private var lockedView: some View {
+        VStack(spacing: 6) {
+            Image(systemName: "lock.fill")
+                .font(.title2)
+                .foregroundStyle(.secondary)
+            Text("Unlock Pro")
+                .font(.caption.weight(.medium))
+                .multilineTextAlignment(.center)
+            Text("to see the best spot")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        }
     }
 
     private var emptyView: some View {
@@ -221,7 +267,18 @@ struct SurfPickWidget: Widget {
             distanceText: "5.2 km away",
             waveSummary: "1.4m · 11s · 8k SW",
             ratingRaw: Rating.good.rawValue
-        )
+        ),
+        isPro: true
     )
-    SurfPickEntry(date: .now, topBreak: nil)
+    SurfPickEntry(
+        date: .now,
+        topBreak: TopBreakSnapshot(
+            name: "Lennox Head",
+            distanceText: "5.2 km away",
+            waveSummary: "1.4m · 11s · 8k SW",
+            ratingRaw: Rating.good.rawValue
+        ),
+        isPro: false
+    )
+    SurfPickEntry(date: .now, topBreak: nil, isPro: false)
 }
