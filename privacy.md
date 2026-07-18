@@ -18,7 +18,7 @@ Surf Pick is designed to give you a useful answer with the smallest possible amo
 
 ## What is collected
 
-**Precise location.** When you tap Refresh or open the app, Surf Pick reads your current location using Apple's Core Location framework. This location is used on your device, in real time, to:
+**Precise location.** When you tap Refresh or open the app, Surf Pick reads your current location using your device's location services (Core Location on iOS, Fused Location Provider on Android). This location is used on your device, in real time, to:
 
 1. Compute distances to known surf breaks in the bundled dataset.
 2. Fetch wave and wind conditions for the 10 nearest breaks from Open-Meteo.
@@ -41,13 +41,13 @@ Surf Pick does **not** collect, store, transmit, or share:
 ## Third parties
 
 - **Open-Meteo** ([open-meteo.com](https://open-meteo.com/)) provides marine and weather forecast data. Surf Pick sends Open-Meteo only the latitude and longitude of surf breaks. See [Open-Meteo's terms](https://open-meteo.com/en/terms) for their data handling.
-- **Apple** processes In-App Purchase transactions (the one-time Pro unlock) via StoreKit. Surf Pick does not receive your Apple ID or payment information; only a verified entitlement that says "this device has Pro." See [Apple's privacy policy](https://www.apple.com/legal/privacy/).
+- **Apple** (iOS) or **Google** (Android) processes in-app purchase transactions (the one-time Pro unlock) via StoreKit or Google Play Billing respectively. Surf Pick does not receive your Apple ID, Google account, or payment information; only a verified entitlement that says "this device has Pro." See [Apple's privacy policy](https://www.apple.com/legal/privacy/) or [Google's privacy policy](https://policies.google.com/privacy).
 
 There are no other third parties. No analytics SDKs, no advertising networks, no crash reporters, no usage tracking.
 
 ## Children's privacy
 
-Surf Pick is rated 4+ and is suitable for all ages. It does not knowingly collect data from anyone, including children.
+Surf Pick is suitable for all ages. It does not knowingly collect data from anyone, including children.
 
 ## Reporting a bad spot location
 
