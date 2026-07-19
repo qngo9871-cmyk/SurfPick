@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A1668295A88674DC128726B /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = DB4C97FAF66B0535826F6249 /* RevenueCat */; };
 		CEA40C772F9CE018004CE1EF /* SurfShared in Frameworks */ = {isa = PBXBuildFile; productRef = CEA40C762F9CE018004CE1EF /* SurfShared */; };
 		CEED11872F9ED51700749E56 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA40C892F9CE3BB004CE1EF /* WidgetKit.framework */; };
 		CEED11882F9ED51700749E56 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA40C8B2F9CE3BB004CE1EF /* SwiftUI.framework */; };
@@ -74,21 +75,29 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		CEA40C4A2F9CDADB004CE1EF /* SurfPick */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = SurfPick;
 			sourceTree = "<group>";
 		};
 		CEA40C582F9CDADE004CE1EF /* SurfPickTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = SurfPickTests;
 			sourceTree = "<group>";
 		};
 		CEA40C622F9CDADE004CE1EF /* SurfPickUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = SurfPickUITests;
 			sourceTree = "<group>";
 		};
 		CEA40C8D2F9CE3BB004CE1EF /* SurfPickWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = SurfPickWidget;
 			sourceTree = "<group>";
 		};
@@ -108,6 +117,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEA40C772F9CE018004CE1EF /* SurfShared in Frameworks */,
+				2A1668295A88674DC128726B /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +204,7 @@
 			name = SurfPick;
 			packageProductDependencies = (
 				CEA40C762F9CE018004CE1EF /* SurfShared */,
+				DB4C97FAF66B0535826F6249 /* RevenueCat */,
 			);
 			productName = SurfPick;
 			productReference = CEA40C482F9CDADB004CE1EF /* SurfPick.app */;
@@ -216,8 +227,6 @@
 				CEA40C582F9CDADE004CE1EF /* SurfPickTests */,
 			);
 			name = SurfPickTests;
-			packageProductDependencies = (
-			);
 			productName = SurfPickTests;
 			productReference = CEA40C552F9CDADE004CE1EF /* SurfPickTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -239,8 +248,6 @@
 				CEA40C622F9CDADE004CE1EF /* SurfPickUITests */,
 			);
 			name = SurfPickUITests;
-			packageProductDependencies = (
-			);
 			productName = SurfPickUITests;
 			productReference = CEA40C5F2F9CDADE004CE1EF /* SurfPickUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -305,7 +312,8 @@
 			mainGroup = CEA40C3F2F9CDADB004CE1EF;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				CEA40C722F9CDCDE004CE1EF /* XCLocalSwiftPackageReference "../../SurfShared" */,
+				CEA40C722F9CDCDE004CE1EF /* XCLocalSwiftPackageReference "SurfShared" */,
+				ED83CDB74F1A253B6E33523D /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CEA40C492F9CDADB004CE1EF /* Products */;
@@ -529,7 +537,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = SM99L22Q84;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -539,7 +547,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 1.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.quyenngo.surfpick;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -549,7 +557,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -560,7 +568,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = SM99L22Q84;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -570,7 +578,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 1.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.quyenngo.surfpick;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -579,7 +587,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -600,7 +608,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SurfPick.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SurfPick";
 			};
 			name = Debug;
@@ -622,7 +630,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SurfPick.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SurfPick";
 			};
 			name = Release;
@@ -643,7 +651,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = SurfPick;
 			};
 			name = Debug;
@@ -664,7 +672,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = SurfPick;
 			};
 			name = Release;
@@ -675,7 +683,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = SM99L22Q84;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SurfPickWidget/Info.plist;
@@ -687,7 +695,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 1.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.quyenngo.surfpick.SurfPickWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -696,7 +704,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -706,7 +714,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = SM99L22Q84;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SurfPickWidget/Info.plist;
@@ -718,7 +726,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 1.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.quyenngo.surfpick.SurfPickWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -727,7 +735,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -782,22 +790,38 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		CEA40C722F9CDCDE004CE1EF /* XCLocalSwiftPackageReference "../../SurfShared" */ = {
+		CEA40C722F9CDCDE004CE1EF /* XCLocalSwiftPackageReference "SurfShared" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../SurfShared;
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		ED83CDB74F1A253B6E33523D /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		CEA40C762F9CE018004CE1EF /* SurfShared */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CEA40C722F9CDCDE004CE1EF /* XCLocalSwiftPackageReference "../../SurfShared" */;
+			package = CEA40C722F9CDCDE004CE1EF /* XCLocalSwiftPackageReference "SurfShared" */;
 			productName = SurfShared;
 		};
 		CEED11992F9ED54E00749E56 /* SurfShared */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CEA40C722F9CDCDE004CE1EF /* XCLocalSwiftPackageReference "../../SurfShared" */;
+			package = CEA40C722F9CDCDE004CE1EF /* XCLocalSwiftPackageReference "SurfShared" */;
 			productName = SurfShared;
+		};
+		DB4C97FAF66B0535826F6249 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ED83CDB74F1A253B6E33523D /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
